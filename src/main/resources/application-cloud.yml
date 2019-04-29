@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Twitter-App
+  datasource:
+    url: ${DB_CONN_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    validationQuery: "select 1;"
+    max-idle: 10
+    max-active: 25
+    max-wait: 8000
+    driverClassName: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        # This temp.use_jdbc is needed for postgres because it is really slow to startup without it.
+        # Unfortunately, this also forces us to specify platform
+        temp.use_jdbc_metadata_defaults: false
+flyway:
+  url: ${DB_CONN_URL}
+  schema: public
+  username: ${DB_USERNAME}
+  password: ${DB_PASSWORD}
+  locations: classpath:/db/migration/default
